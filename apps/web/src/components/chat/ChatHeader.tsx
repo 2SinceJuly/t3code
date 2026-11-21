@@ -1,6 +1,7 @@
 import {
   AuthOrchestrationOperateScope,
   type EnvironmentId,
+  isHomeThreadId,
   type ScopedThreadRef,
   type ThreadId,
 } from "@t3tools/contracts";
@@ -91,6 +92,7 @@ export const ChatHeader = memo(function ChatHeader({
   const breadcrumbContainerRef = useRef<HTMLDivElement>(null);
   const [collapseParentTitle, setCollapseParentTitle] = useState(false);
   const activeThreadRef = scopeThreadRef(activeThreadEnvironmentId, activeThreadId);
+  const isHomeThread = isHomeThreadId(activeThreadId);
   const canOperateThread = useEnvironmentScope(
     activeThreadEnvironmentId,
     AuthOrchestrationOperateScope,
@@ -261,7 +263,8 @@ export const ChatHeader = memo(function ChatHeader({
         ariaLabel={gt("Thread breadcrumb")}
         className="flex-1 overflow-clip [overflow-clip-margin:2px]"
       >
-        {activeProject ? (
+        {/* Home's project is its own workspace, not one the user starts threads in. */}
+        {activeProject && !isHomeThread ? (
           <>
             <WorkspaceBreadcrumbItem className="shrink">
               <Tooltip>
@@ -394,6 +397,11 @@ export const ChatHeader = memo(function ChatHeader({
               <TooltipPopup side="top">{activeThreadTitle}</TooltipPopup>
             </Tooltip>
           )}
+          {renamingTitle === null && isHomeThread ? (
+            <Badge variant="secondary" size="sm">
+              <T>Home</T>
+            </Badge>
+          ) : null}
           {renamingTitle === null && activeThreadLinkOrigin ? (
             <Tooltip>
               <TooltipTrigger render={<Badge variant="info" size="sm" />}>
