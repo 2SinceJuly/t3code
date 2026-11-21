@@ -29,7 +29,6 @@ import {
   assertSameLink,
   callerLinkOrigin,
 } from "./linkOrigin.ts";
-import { hiddenFromNonHomeThreads } from "./homeAccess.ts";
 import * as McpInvocationContext from "./McpInvocationContext.ts";
 import { resolveInteractionMode, resolveRuntimeMode } from "./delegatedTaskModes.ts";
 import {
@@ -418,7 +417,7 @@ const linksUnavailable = new OrchestratorMcpFailure({
 const THREAD_ONLY = new Set<unknown>([
   McpInvocationContext.hiddenFromOutsideClients,
   McpInvocationContext.hiddenWithoutBackgroundWait,
-  hiddenFromNonHomeThreads,
+  McpInvocationContext.hiddenFromNonBots,
 ]);
 
 /**
