@@ -402,6 +402,7 @@ const layerScheduledTasksTest = ScheduledTaskService.layer.pipe(
       Layer.mock(SecretRequests.SecretRequests)({}),
       Layer.mock(ManagedProjectFolders.ManagedProjectFolders)({
         namedProjectsRoot: "/projects",
+        homeRoot: "/unused-home",
         isScratchProject: () => Effect.succeed(false),
       }),
       Scheduler.layer,
@@ -12557,6 +12558,7 @@ const layerScratchPromotionTest = ScratchThreadPromotion.layer.pipe(
       scratchRoot: Effect.succeedSome(SCRATCH_ROOT),
       isScratchProject: (projectId) => Effect.succeed(projectId === SCRATCH_PROJECT_ID),
       namedProjectsRoot: "/projects",
+      homeRoot: "/unused-home",
     }),
   ),
   Layer.provide(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer)),
