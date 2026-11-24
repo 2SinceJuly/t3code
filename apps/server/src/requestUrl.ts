@@ -15,8 +15,7 @@ const isHttpsForwardedProto = (proto: string | undefined): boolean =>
  */
 export const requestUrl = (request: HttpServerRequest.HttpServerRequest): Option.Option<URL> =>
   HttpServerRequest.toURL(
-    isHttpsForwardedProto(request.headers["x-forwarded-proto"]) &&
-      request.protocol !== "https"
+    isHttpsForwardedProto(request.headers["x-forwarded-proto"]) && request.protocol !== "https"
       ? request.modify({ protocol: "https" })
       : request,
   );
